@@ -11,15 +11,23 @@ Windows users:
 
 4) Start program by running easyconnect.py file.
 
-a) send file should be chosen using "Choose file" button.
+i) Type IP, port, user-name and password of staging server (called middle_sever)
 
-b) send file remote location location will look something like this:
+ii) Type IP, port, user-name and password of any server behind the staging server (called last_server)
+
+iii) send file should be chosen using "Choose file" button.
+
+iv) send file remote location location will look something like this:
 /tmp/server.php
 
-c) receive file from remote location will look something like this:
+v) Type the command that you want to execute on last server or middle_server (if last server is not mentioned)
+
+v) receive file from remote location. path will look something like this:
 /home/myfile.csv
 
-d) Receive file location will look something like this on windows...
+vi) Receive file location will look something like this on windows...
 C:\Users\Webzone\Downloads\x1.py
+
+Important note:
 
 All locations should have read/write permission to the current user.
