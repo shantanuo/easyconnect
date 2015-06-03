@@ -1,7 +1,7 @@
 # easyconnect
 connect to a server behind firewall and copy files, execute commands
 
-Installation Instructions:
+How to install:
 
 1) Install Latest Python 2.6+
 
