@@ -27,10 +27,11 @@ v) receive file from remote location. path will look something like this:
 
 vi) Receive file location will look something like this on windows...
 C:\Users\Webzone\Downloads\x1.py
-
+_____
 Important note:
 
 All locations should have read/write permission to the current user.
+_____
 
 Here is screen-shot of how the dialog box and the pop-up window will look like...
 
