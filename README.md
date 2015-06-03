@@ -36,3 +36,4 @@ Here is screen-shot of how the dialog box and the pop-up window will look like..
 
 http://i.stack.imgur.com/aJFIq.png
 
+The above screen-shot is showing the output of "ls" command executed on 10.0.0.240 server that is accessible from gateway server 123.456.789.0 
