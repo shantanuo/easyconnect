@@ -31,3 +31,8 @@ C:\Users\Webzone\Downloads\x1.py
 Important note:
 
 All locations should have read/write permission to the current user.
+
+Here is screen-shot of how the dialog box and the pop-up window will look like...
+
+http://i.stack.imgur.com/aJFIq.png
+
