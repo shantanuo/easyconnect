@@ -1,5 +1,6 @@
 from Tkinter import *
 import tkMessageBox
+send_file=''
 
 def myconnect(middle_server, middle_port, middle_user, middle_password, last_server, last_port, last_user, last_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     import paramiko
@@ -26,7 +27,12 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
 
     try:
         (sshin1, sshout1, ssherr1) = remote_client.exec_command(mycommand)
-        print sshout1.read()
+        mytext=sshout1.read()
+        mytext_error=ssherr1.read()
+        if mytext:
+            tkMessageBox.showinfo("command output", mytext)
+        else:
+            tkMessageBox.showerror("command failed", mytext_error)
     except:
         print "error while executing the command on remote host"
 
@@ -37,7 +43,6 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
         sftp.close()
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
-    tkMessageBox.showinfo("Say Hello", sshout1.read())
     return 0
 
 
@@ -61,10 +66,13 @@ def myfirstconnect(middle_server, middle_port, middle_user, middle_password, myc
         print "error while put %s %s " % (file_send, send_f_loc)
 
     try:
-        (sshin1, sshout1, ssherr1) = proxy_client.exec_command(mycommand)
-        #print sshout1.read()
+        (sshin1, sshout1, ssherr1) = remote_client.exec_command(mycommand)
         mytext=sshout1.read()
-        print type(mytext)
+        mytext_error=ssherr1.read()
+        if mytext:
+            tkMessageBox.showinfo("command output", mytext)
+        else:
+            tkMessageBox.showerror("command failed", mytext_error)
     except:
         print "error while executing the command on remote host"
 
@@ -74,7 +82,7 @@ def myfirstconnect(middle_server, middle_port, middle_user, middle_password, myc
         sftp.close()
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
-    tkMessageBox.showinfo("Say Hello", mytext)
+
     return 0
 
 
@@ -102,10 +110,10 @@ def submit_window():
         lp= int(last_p.get())
         lu= last_u.get()
         lpass= last_pass.get()
-        print(ms, mp, mu, mpass, ls, lp, lu, lpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
+        #print(ms, mp, mu, mpass, ls, lp, lu, lpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
         myconnect(ms, mp, mu, mpass, ls, lp, lu, lpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
     else:
-        print(ms, mp, mu, mpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
+        #print(ms, mp, mu, mpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
         myfirstconnect(ms, mp, mu, mpass, myc, send_file, rec_file, r_f_loc, s_f_loc)
         
 
@@ -142,18 +150,18 @@ Label(root, text='last_user' ).grid(row=6, column=0)
 Entry(root, textvariable=last_u).grid(row=6, column=1)
 Label(root, text='last_password' ).grid(row=7, column=0)
 Entry(root, textvariable=last_pass).grid(row=7, column=1)
-Label(root, text='Exec command').grid(row=8, column=0)
-Entry(root, textvariable=mycommand).grid(row=8, column=1)
-
-Label(root, text='send file').grid(row=9, column=0)
+Label(root, text='send file').grid(row=8, column=0)
 
 button = Button(root)
 button['text'] ="Choose file"
 button['command'] = choose_file
-button.grid(row=9, column=1)
+button.grid(row=8, column=1)
 
-Label(root, text='send file location').grid(row=9, column=2)
-Entry(root, textvariable=send_file_loc).grid(row=9, column=3)
+Label(root, text='send file location').grid(row=8, column=2)
+Entry(root, textvariable=send_file_loc).grid(row=8, column=3)
+
+Label(root, text='Exec command').grid(row=9, column=0)
+Entry(root, textvariable=mycommand).grid(row=9, column=1)
 
 Label(root, text='receive file').grid(row=10, column=0)
 Entry(root, textvariable=receive_file).grid(row=10, column=1)
