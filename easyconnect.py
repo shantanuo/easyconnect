@@ -24,6 +24,8 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
         sftp.close()
     except:
         print "error while put %s %s " % (file_send, send_f_loc)
+        put_error = "error while sending file %s to %s " % (file_send, send_f_loc)
+        tkMessageBox.showerror("command failed", put_error)
 
     try:
         (sshin1, sshout1, ssherr1) = remote_client.exec_command(mycommand)
@@ -31,7 +33,7 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
         mytext_error=ssherr1.read()
         if mytext:
             tkMessageBox.showinfo("command output", mytext)
-        else:
+        elif mytext_error:
             tkMessageBox.showerror("command failed", mytext_error)
     except:
         print "error while executing the command on remote host"
@@ -43,35 +45,37 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
         sftp.close()
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
+        get_error = "error while receiving file from %s to %s " % (file_rec, rece_f_loc)
+        tkMessageBox.showerror("command failed", get_error)
+
     return 0
 
 
 def myfirstconnect(middle_server, middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     import paramiko
-
-    proxy_client = paramiko.SSHClient()
-    proxy_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    proxy_client.connect(middle_server, port=middle_port, username=middle_user,  password=middle_password)
-
     try:
-        proxy_client.connect('localhost', port=last_port, username=last_user, password=last_password, sock=channel)
+        proxy_client = paramiko.SSHClient()
+        proxy_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        proxy_client.connect(middle_server, port=middle_port, username=middle_user,  password=middle_password)
     except:
-        print "error while connecting to remote host"
-
+        print "error myfirstconnect"
+        
     try:
         sftp = proxy_client.open_sftp()
         sftp.put(file_send, send_f_loc)
         sftp.close()
     except:
         print "error while put %s %s " % (file_send, send_f_loc)
+        put_error = "error while sending file %s to %s " % (file_send, send_f_loc)
+        tkMessageBox.showerror("command failed", put_error)
 
     try:
-        (sshin1, sshout1, ssherr1) = remote_client.exec_command(mycommand)
+        (sshin1, sshout1, ssherr1) = proxy_client.exec_command(mycommand)
         mytext=sshout1.read()
         mytext_error=ssherr1.read()
         if mytext:
             tkMessageBox.showinfo("command output", mytext)
-        else:
+        elif mytext_error:
             tkMessageBox.showerror("command failed", mytext_error)
     except:
         print "error while executing the command on remote host"
@@ -82,6 +86,8 @@ def myfirstconnect(middle_server, middle_port, middle_user, middle_password, myc
         sftp.close()
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
+        get_error = "error while receiving file from %s to %s " % (file_rec, rece_f_loc)
+        tkMessageBox.showerror("command failed", get_error)
 
     return 0
 
