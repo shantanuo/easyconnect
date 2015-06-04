@@ -1,9 +1,8 @@
 from Tkinter import *
 import tkMessageBox
-import paramiko
-send_file=''
 
 def myconnect(middle_server, middle_port, middle_user, middle_password, last_server, last_port, last_user, last_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
+    import paramiko
     proxy_client = paramiko.SSHClient()
     proxy_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     proxy_client.connect(middle_server, port=middle_port, username=middle_user,  password=middle_password)
@@ -43,6 +42,8 @@ def myconnect(middle_server, middle_port, middle_user, middle_password, last_ser
 
 
 def myfirstconnect(middle_server, middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
+    import paramiko
+
     proxy_client = paramiko.SSHClient()
     proxy_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     proxy_client.connect(middle_server, port=middle_port, username=middle_user,  password=middle_password)
@@ -81,9 +82,9 @@ def close_window():
     root.destroy()
 
 def choose_file():
+    global send_file
     from tkFileDialog import askopenfilename
     send_file = askopenfilename()
-    global send_file
 
 def submit_window():
     print "success"
@@ -171,4 +172,3 @@ button['command'] = close_window
 button.grid(row=11, column=1)
 
 root.mainloop()
-
