@@ -22,9 +22,9 @@ app = web.application(urls, globals())
 
 myform = form.Form( 
     form.Textbox("middle_server"), 
-    form.Textbox("middle_port", 
+    form.Textbox("middle_port",
         form.notnull,
-        form.regexp('\d+', 'usually is 22'),
+        form.regexp('\d+', 'Usually port 22')),
     form.Textbox('middle_user'),
     form.Textbox('middle_password'),
     form.Textbox('exec_command'))
