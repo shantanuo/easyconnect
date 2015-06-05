@@ -32,7 +32,11 @@ myform = form.Form(
     form.Textbox("second_port"),
     form.Textbox('second_user'),
     form.Textbox('second_password'),
-    form.Textbox('exec_command'))
+    form.Textbox('exec_command'),
+    form.Textbox('file_receive'),
+    form.Textbox('file_receive_location'),
+    form.Textbox('file_send'),
+    form.Textbox('file_send_location'))
 
 def myfirstconnect(middle_server, middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     myreturn=''
@@ -121,7 +125,7 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
 
 
     try:
-        sftp = proxy_client.open_sftp()
+        sftp = last_server.open_sftp()
         sftp.put(file_send, send_f_loc)
         sftp.close()
     except:
@@ -143,7 +147,7 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
         print "error while executing the command on remote host"
 
     try:
-        sftp = proxy_client.open_sftp()
+        sftp = last_server.open_sftp()
         sftp.get(file_rec, rece_f_loc)
         sftp.close()
     except:
@@ -179,6 +183,11 @@ class index:
             second_user=form['second_user'].value.encode('ascii', 'ignore') or None
             second_password=form['second_password'].value.encode('ascii', 'ignore') or None
             user_option=form['mydrop'].value
+            file_rec=form['file_receive'].value.encode('ascii', 'ignore') or None
+            rece_f_loc=form['file_receive_location'].value.encode('ascii', 'ignore') or None
+            file_send=form['file_send'].value.encode('ascii', 'ignore') or None
+            send_f_loc=form['file_send_location'].value.encode('ascii', 'ignore') or None
+
             print middle_server.encode('ascii','ignore'), middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc
             if user_option == 'value2':
                 toshow=mysecondconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
