@@ -1,6 +1,20 @@
 import web
 from web import form
 
+# install web.py
+# use pip install or easy_install web.py
+# or download source
+# wget http://webpy.org/static/web.py-0.37.tar.gz
+# tar xvf web.py-0.37.tar.gz
+# cd web.py-0.37
+# python setup.py install
+##############
+# run this file:
+# python code.py 
+##############
+# visit this page on port 8080
+# http://23.21.167.60:8080/
+
 render = web.template.render('templates/')
 
 urls = ('/', 'index')
