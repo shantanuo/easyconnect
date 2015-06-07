@@ -39,10 +39,13 @@ myform = form.Form(
     form.Textbox('third_password'),
 
     form.Textbox('exec_command'),
+
+    form.File('myfile'),
+    form.Textbox('file_send_location'),
+
     form.Textbox('file_receive'),
-    form.Textbox('file_receive_location'),
-    form.Textbox('file_send'),
-    form.Textbox('file_send_location'))
+    form.Textbox('file_receive_location'))
+    #form.Textbox('file_send'),
 
 def myfirstconnect(middle_server, middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     myreturn=''
@@ -321,8 +324,18 @@ class index:
             user_option=form['mydrop'].value
             file_rec=form['file_receive'].value.encode('ascii', 'ignore') or None
             rece_f_loc=form['file_receive_location'].value.encode('ascii', 'ignore') or None
-            file_send=form['file_send'].value.encode('ascii', 'ignore') or None
+            #file_send=form['file_send'].value.encode('ascii', 'ignore') or None
             send_f_loc=form['file_send_location'].value.encode('ascii', 'ignore') or None
+
+            x = web.input(myfile={})
+            filedir = '/tmp/' 
+            if 'myfile' in x: 
+                filepath=x.myfile.filename.replace('\\','/') 
+                filename=filepath.split('/')[-1] 
+                file_send = '/tmp/' + filename
+                fout = open(filedir +'/'+ filename,'w') 
+                fout.write(x.myfile.file.read()) 
+                fout.close()
 
             print middle_server.encode('ascii','ignore'), middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc
             if user_option == 'value3':
@@ -330,7 +343,6 @@ class index:
             elif user_option == 'value2':
                 toshow=mysecondconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             else:
-                print "error myscondconnect"
                 toshow=myfirstconnect(middle_server, middle_port , middle_user , middle_password , mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             #return "Grrreat success! boe: %s, bax: %s" % (form['middle_server'].value, form['middle_port'].value)
             return toshow
