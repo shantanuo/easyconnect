@@ -336,17 +336,24 @@ class index:
                 fout = open(filedir +'/'+ filename,'w') 
                 fout.write(x.myfile.file.read()) 
                 fout.close()
+            if rece_f_loc:
+                toshow="download your file from http://23.21.167.60:8000/"+rece_f_loc.split('/')[-1] 
 
             print middle_server.encode('ascii','ignore'), middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc
             if user_option == 'value3':
-                toshow=mythirdconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, third_server, third_port, third_user, third_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
+                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+third_server+"  #################################\n"
+                toshow+=mythirdconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, third_server, third_port, third_user, third_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             elif user_option == 'value2':
-                toshow=mysecondconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
+                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+second_server+"  #################################\n"
+                toshow+=mysecondconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             else:
-                toshow=myfirstconnect(middle_server, middle_port , middle_user , middle_password , mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
+                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+middle_server+"  #################################\n"
+                toshow+=myfirstconnect(middle_server, middle_port , middle_user , middle_password , mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             #return "Grrreat success! boe: %s, bax: %s" % (form['middle_server'].value, form['middle_port'].value)
             return toshow
-    
+ 
+              
+
 if __name__=="__main__":
     web.internalerror = web.debugerror
     app.run()
