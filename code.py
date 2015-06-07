@@ -49,6 +49,7 @@ myform = form.Form(
 
 def myfirstconnect(middle_server, middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     myreturn=''
+
     try:
         import paramiko
     except:
@@ -68,10 +69,14 @@ def myfirstconnect(middle_server, middle_port, middle_user, middle_password, myc
         sftp = proxy_client.open_sftp()
         sftp.put(file_send, send_f_loc)
         sftp.close()
+        if send_f_loc:
+            myreturn+="file uploaded successfully to   "+send_f_loc 
+            myreturn+="\n############################################\n" 
+
     except:
         print "error while put %s %s " % (file_send, send_f_loc)
         put_error = "error while sending file %s to %s " % (file_send, send_f_loc)
-        #tkMessageBox.showerror("command failed", put_error)
+        myreturn += '\n'+put_error
 
     try:
         (sshin1, sshout1, ssherr1) = proxy_client.exec_command(mycommand)
@@ -79,26 +84,29 @@ def myfirstconnect(middle_server, middle_port, middle_user, middle_password, myc
         mytext_error=ssherr1.read()
         if mytext:
             myreturn += mytext
-            #tkMessageBox.showinfo("command output", mytext)
         elif mytext_error:
             myreturn += mytext_error
-            #tkMessageBox.showerror("command failed", mytext_error)
     except:
-        print "error while executing the command on remote host"
+        myreturn +="\n error while executing the command on remote host \n"
 
     try:
         sftp = proxy_client.open_sftp()
         sftp.get(file_rec, rece_f_loc)
         sftp.close()
+        if rece_f_loc:
+            myreturn+="\n\n###########################################################\n\n" 
+            myreturn+="download your file from http://23.21.167.60:8000/"+rece_f_loc.split('/')[-1] 
+
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
         get_error = "error while receiving file from %s to %s " % (file_rec, rece_f_loc)
-        #tkMessageBox.showerror("command failed", get_error)
-
+        myreturn += '\n'+get_error
     return myreturn
+
 
 def mysecondconnect(middle_server, middle_port, middle_user, middle_password, second_server, second_port, second_user, second_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     myreturn=''
+
     try:
         import paramiko
     except:
@@ -113,7 +121,7 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
         exec myline
     except:
         print "error myfirstconnect in function mysecondconnect"
-        exit
+
     transport = proxy_client.get_transport()
     try:
         myline2="dest_addr = ('%s', %d)" % (second_server, int(second_port))
@@ -137,10 +145,14 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
         sftp = last_server.open_sftp()
         sftp.put(file_send, send_f_loc)
         sftp.close()
+        if send_f_loc:
+            myreturn+="file uploaded successfully to   "+send_f_loc 
+            myreturn+="\n############################################\n" 
+
     except:
         print "error while put %s %s " % (file_send, send_f_loc)
         put_error = "error while sending file %s to %s " % (file_send, send_f_loc)
-        #tkMessageBox.showerror("command failed", put_error)
+        myreturn += '\n'+put_error
 
     try:
         (sshin1, sshout1, ssherr1) = last_server.exec_command(mycommand)
@@ -148,21 +160,24 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
         mytext_error=ssherr1.read()
         if mytext:
             myreturn += mytext
-            #tkMessageBox.showinfo("command output", mytext)
         elif mytext_error:
             myreturn += mytext_error
-            #tkMessageBox.showerror("command failed", mytext_error)
     except:
-        print "error while executing the command on remote host"
+        myreturn += "\n error myfirstconnect in function mysecondconnect \n"
+
 
     try:
         sftp = last_server.open_sftp()
         sftp.get(file_rec, rece_f_loc)
         sftp.close()
+        if rece_f_loc:
+            myreturn+="\n\n###########################################################\n\n" 
+            myreturn+="download your file from http://23.21.167.60:8000/"+rece_f_loc.split('/')[-1] 
+
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
         get_error = "error while receiving file from %s to %s " % (file_rec, rece_f_loc)
-        #tkMessageBox.showerror("command failed", get_error)
+        myreturn += '\n'+get_error
 
     return myreturn
 
@@ -188,6 +203,7 @@ def mysecondconnect(middle_server, middle_port, middle_user, middle_password, se
 
 def mythirdconnect(middle_server, middle_port, middle_user, middle_password, second_server, second_port, second_user, second_password, third_server, third_port, third_user, third_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc):
     myreturn=''
+
     try:
         import paramiko
     except:
@@ -243,10 +259,14 @@ def mythirdconnect(middle_server, middle_port, middle_user, middle_password, sec
         sftp = etim_server.open_sftp()
         sftp.put(file_send, send_f_loc)
         sftp.close()
+        if send_f_loc:
+            myreturn+="file uploaded successfully to   "+send_f_loc 
+            myreturn+="\n############################################\n" 
+
     except:
         print "error while put %s %s " % (file_send, send_f_loc)
         put_error = "error while sending file %s to %s " % (file_send, send_f_loc)
-        #tkMessageBox.showerror("command failed", put_error)
+        myreturn += '\n'+put_error
 
     try:
         (sshin1, sshout1, ssherr1) = etim_server.exec_command(mycommand)
@@ -254,21 +274,24 @@ def mythirdconnect(middle_server, middle_port, middle_user, middle_password, sec
         mytext_error=ssherr1.read()
         if mytext:
             myreturn += mytext
-            #tkMessageBox.showinfo("command output", mytext)
         elif mytext_error:
             myreturn += mytext_error
-            #tkMessageBox.showerror("command failed", mytext_error)
     except:
         print "error while executing the command on remote host"
+        myreturn += "\n error while executing the command on remote host \n"
 
     try:
         sftp = etim_server.open_sftp()
         sftp.get(file_rec, rece_f_loc)
         sftp.close()
+        if rece_f_loc:
+            myreturn+="\n\n###########################################################\n\n" 
+            myreturn+="download your file from http://23.21.167.60:8000/"+rece_f_loc.split('/')[-1] 
+
     except:
         print "error while get %s %s " % (file_rec, rece_f_loc)
         get_error = "error while receiving file from %s to %s " % (file_rec, rece_f_loc)
-        #tkMessageBox.showerror("command failed", get_error)
+        myreturn += '\n'+get_error
 
     return myreturn
 
@@ -301,6 +324,7 @@ class index:
         return render.formtest(form)
 
     def POST(self):
+        toshow=''
         form = myform()
         if not form.validates():
             return render.formtest(form)
@@ -336,18 +360,17 @@ class index:
                 fout = open(filedir +'/'+ filename,'w') 
                 fout.write(x.myfile.file.read()) 
                 fout.close()
-            if rece_f_loc:
-                toshow="download your file from http://23.21.167.60:8000/"+rece_f_loc.split('/')[-1] 
+
 
             print middle_server.encode('ascii','ignore'), middle_port, middle_user, middle_password, mycommand, file_send, file_rec, rece_f_loc, send_f_loc
             if user_option == 'value3':
-                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+third_server+"  #################################\n"
+                toshow+="############output of command  "+mycommand+"  ############## on server "+third_server+"  ####### \n\n"
                 toshow+=mythirdconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, third_server, third_port, third_user, third_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             elif user_option == 'value2':
-                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+second_server+"  #################################\n"
+                toshow+="############output of command  "+mycommand+"  ############## on server "+second_server+"  ####### \n\n"
                 toshow+=mysecondconnect(middle_server, middle_port , middle_user , middle_password , second_server, second_port, second_user, second_password, mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             else:
-                toshow+="\n\n\n############output of   "+mycommand+"  ############## on server "+middle_server+"  #################################\n"
+                toshow+="############output of command  "+mycommand+"  ############## on server "+middle_server+"  ####### \n\n"
                 toshow+=myfirstconnect(middle_server, middle_port , middle_user , middle_password , mycommand , file_send, file_rec, rece_f_loc, send_f_loc)
             #return "Grrreat success! boe: %s, bax: %s" % (form['middle_server'].value, form['middle_port'].value)
             return toshow
